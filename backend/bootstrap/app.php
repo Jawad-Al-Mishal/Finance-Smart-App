@@ -11,9 +11,12 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
     )
-    ->withMiddleware(function (Middleware $middleware): void {
-        //
-    })
+    ->withMiddleware(function (Middleware $middleware) {
+    // এপিআই রিকোয়েস্টের জন্য CSRF প্রোটেকশন বন্ধ রাখা
+    $middleware->validateCsrfTokens(except: [
+        'api/*', 
+    ]);
+ })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
     })->create();
